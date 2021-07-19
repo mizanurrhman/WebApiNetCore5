@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiNetCore5.Data;
 
 namespace WebApiNetCore5.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210719063626_addedDefaultRoles")]
+    partial class addedDefaultRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace WebApiNetCore5.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "072ae74d-33a4-4717-b06d-f3dbaac21da9",
-                            ConcurrencyStamp = "d212a917-ea65-4b18-9d18-49f44d20e3e2",
+                            Id = "c86eda0b-61ea-46b7-9338-d66956bcb523",
+                            ConcurrencyStamp = "9dc48a8a-352c-4f06-9481-49bbd08afb13",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "58d8cce3-53dc-41d6-a8fa-a60560070d2c",
-                            ConcurrencyStamp = "2cd737b6-30cf-4707-88a0-3a76a4d39989",
+                            Id = "e8a66276-c677-4a63-beeb-d691347bacca",
+                            ConcurrencyStamp = "d5e33ed9-cc21-49c3-93c6-3184d39633df",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using WebApiNetCore5.Controllers.Data;
+using WebApiNetCore5.Data;
 using WebApiNetCore5.IRepository;
 
 namespace WebApiNetCore5.Repository

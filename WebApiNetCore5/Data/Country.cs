@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApiNetCore5.Controllers.Data
+namespace WebApiNetCore5.Data
 {
     public class Country
     {

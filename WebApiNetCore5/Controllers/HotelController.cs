@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApiNetCore5.Controllers.Data;
+using WebApiNetCore5.Data;
 using WebApiNetCore5.IRepository;
 using WebApiNetCore5.Model;
 

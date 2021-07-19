@@ -78,6 +78,44 @@ endpoints.MapControllerRoute(
             op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 ```
 
+# Make Secure the App using JWT
+
+Install Package `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
+Change inherited from `DbContext` to `IdentityDbContext<ApiUser>` `ApiUser` is a user class  add `base.OnModelCreating(builder);` at `OnModelCreating` methode 
+
+In `StartUp` file add `services.AddAuthentication(); services.ConfigureIdentity();` 
+those are stand in another `ServiceExtensions` class then 
+`add-migration addedIdentity` `update-database`
+
+Create `AccountController` apply here Register & Signin with userDTo
+Create `RoleConfiguration` entities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

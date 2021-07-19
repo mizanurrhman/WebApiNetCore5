@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApiNetCore5.Configurations;
-using WebApiNetCore5.Controllers.Data;
+using WebApiNetCore5.Data;
 using WebApiNetCore5.IRepository;
 using WebApiNetCore5.Repository;
 
@@ -35,6 +36,10 @@ namespace WebApiNetCore5
             services.AddDbContext<DatabaseContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
             );
+
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+            
             services.AddCors(o =>
             {
                 o.AddPolicy("CorsPolicyAllowAll", builder =>

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApiNetCore5.Controllers.Data;
+using WebApiNetCore5.Data;
 
 namespace WebApiNetCore5.Migrations
 {
@@ -20,7 +20,7 @@ namespace WebApiNetCore5.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("WebApiNetCore5.Controllers.Data.Country", b =>
+            modelBuilder.Entity("WebApiNetCore5.Data.Country", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,7 @@ namespace WebApiNetCore5.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("WebApiNetCore5.Controllers.Data.Hotel", b =>
+            modelBuilder.Entity("WebApiNetCore5.Data.Hotel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,9 +64,9 @@ namespace WebApiNetCore5.Migrations
                     b.ToTable("Hotels");
                 });
 
-            modelBuilder.Entity("WebApiNetCore5.Controllers.Data.Hotel", b =>
+            modelBuilder.Entity("WebApiNetCore5.Data.Hotel", b =>
                 {
-                    b.HasOne("WebApiNetCore5.Controllers.Data.Country", "Country")
+                    b.HasOne("WebApiNetCore5.Data.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
