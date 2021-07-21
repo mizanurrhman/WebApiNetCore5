@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApiNetCore5.Data;
 using WebApiNetCore5.Model;
+using WebApiNetCore5.Services;
 
 namespace WebApiNetCore5.Controllers
 {
@@ -16,17 +17,20 @@ namespace WebApiNetCore5.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApiUser> _userManager;
-        //private readonly SignInManager<ApiUser> _signInManager;
+       // private readonly SignInManager<ApiUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IMapper _mapper;
+        private readonly IAuthManager _authManager;
 
-        public AccountController(UserManager<ApiUser> userManager, /*SignInManager<ApiUser> signInManager,*/
-                                    ILogger<AccountController> logger, IMapper mapper)
+        public AccountController(UserManager<ApiUser> userManager, 
+                                    //SignInManager<ApiUser> signInManager,
+                                    ILogger<AccountController> logger, IMapper mapper, IAuthManager authManager)
         {
             _userManager = userManager;
-            //_signInManager = signInManager;
+         //   _signInManager = signInManager;
             _logger = logger;
             _mapper = mapper;
+            _authManager = authManager;
         }
 
         [HttpPost]
@@ -63,7 +67,7 @@ namespace WebApiNetCore5.Controllers
                 return Problem($"Something Went Wrong in the {nameof(Register)}", statusCode: 500);
             }
         }
-        /*
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDTO userDTO)
@@ -75,13 +79,13 @@ namespace WebApiNetCore5.Controllers
             }
             try
             {
-                var result = await _signInManager.PasswordSignInAsync(userDTO.Email, userDTO.Password,false,false);
+                //var result = await _signInManager.PasswordSignInAsync(userDTO.Email, userDTO.Password, false, false);
 
-                if (!result.Succeeded)
+                if (!await _authManager.ValidateUser(userDTO))
                 {
-                    return Unauthorized(userDTO);
+                    return Unauthorized();
                 }
-                return Accepted();
+                return Accepted(new { Token=await _authManager.CreateToken()});
 
             }
             catch (Exception ex)
@@ -91,7 +95,7 @@ namespace WebApiNetCore5.Controllers
             }
         }
 
-        */
+
 
     }
 }

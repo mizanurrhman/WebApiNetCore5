@@ -17,7 +17,7 @@ namespace WebApiNetCore5.Configurations
             CreateMap<Hotel, HotelDTO>().ReverseMap();
             CreateMap<Hotel, CreateHotelDTO>().ReverseMap();
             CreateMap<ApiUser, UserDTO>().ReverseMap();
-            CreateMap<ApiUser, LoginUserDTO>().ReverseMap();
+           // CreateMap<ApiUser, LoginUserDTO>().ReverseMap();
         }
     }
 }

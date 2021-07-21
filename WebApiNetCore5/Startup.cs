@@ -17,6 +17,7 @@ using WebApiNetCore5.Configurations;
 using WebApiNetCore5.Data;
 using WebApiNetCore5.IRepository;
 using WebApiNetCore5.Repository;
+using WebApiNetCore5.Services;
 
 namespace WebApiNetCore5
 {
@@ -39,6 +40,7 @@ namespace WebApiNetCore5
 
             services.AddAuthentication();
             services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
             
             services.AddCors(o =>
             {
@@ -51,6 +53,7 @@ namespace WebApiNetCore5
 
             services.AddAutoMapper(typeof(MapperInitilizer));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthManager, AuthManager>();
 
 
             services.AddSwaggerGen(c =>
@@ -84,6 +87,7 @@ namespace WebApiNetCore5
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
