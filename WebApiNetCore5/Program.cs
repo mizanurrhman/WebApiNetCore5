@@ -16,7 +16,8 @@ namespace WebApiNetCore5
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration().WriteTo.File(
-                path: "E:\\Practise\\WebApiNetCore5\\logs\\log-.txt",
+                // path: "E:\\Practise\\WebApiNetCore5\\logs\\log-.txt",
+                path: "logs\\log-.txt",
                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:1j}{NewLine}{Exception}",
                 rollingInterval: RollingInterval.Day,
                 restrictedToMinimumLevel: LogEventLevel.Information
@@ -32,7 +33,7 @@ namespace WebApiNetCore5
                 Log.Fatal(ex, "Application failed to Start");
                 throw;
             }
-            finally 
+            finally
             {
                 Log.CloseAndFlush();
             }

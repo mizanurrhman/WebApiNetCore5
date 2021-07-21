@@ -17,17 +17,17 @@ namespace WebApiNetCore5.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApiUser> _userManager;
-       // private readonly SignInManager<ApiUser> _signInManager;
+        // private readonly SignInManager<ApiUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IMapper _mapper;
         private readonly IAuthManager _authManager;
 
-        public AccountController(UserManager<ApiUser> userManager, 
+        public AccountController(UserManager<ApiUser> userManager,
                                     //SignInManager<ApiUser> signInManager,
                                     ILogger<AccountController> logger, IMapper mapper, IAuthManager authManager)
         {
             _userManager = userManager;
-         //   _signInManager = signInManager;
+            //   _signInManager = signInManager;
             _logger = logger;
             _mapper = mapper;
             _authManager = authManager;
@@ -57,7 +57,7 @@ namespace WebApiNetCore5.Controllers
                     return BadRequest(ModelState);
                     // return BadRequest("User Registration Attempt Failed");
                 }
-                await _userManager.AddToRolesAsync(user,userDTO.Roles);
+                await _userManager.AddToRolesAsync(user, userDTO.Roles);
                 return Accepted();
 
             }
@@ -85,7 +85,7 @@ namespace WebApiNetCore5.Controllers
                 {
                     return Unauthorized();
                 }
-                return Accepted(new { Token=await _authManager.CreateToken()});
+                return Accepted(new { Token = await _authManager.CreateToken() });
 
             }
             catch (Exception ex)
