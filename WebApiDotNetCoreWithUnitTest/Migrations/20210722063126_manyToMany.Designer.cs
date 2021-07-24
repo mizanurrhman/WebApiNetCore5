@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiDotNetCoreWithUnitTest.Data;
 
 namespace WebApiDotNetCoreWithUnitTest.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210722063126_manyToMany")]
+    partial class manyToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,6 +42,9 @@ namespace WebApiDotNetCoreWithUnitTest.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverUrl")
                         .HasColumnType("nvarchar(max)");
@@ -85,6 +90,9 @@ namespace WebApiDotNetCoreWithUnitTest.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("AuthorId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
@@ -92,7 +100,7 @@ namespace WebApiDotNetCoreWithUnitTest.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("AuthorId1");
 
                     b.ToTable("BookAuthors");
                 });
@@ -125,15 +133,15 @@ namespace WebApiDotNetCoreWithUnitTest.Migrations
 
             modelBuilder.Entity("WebApiDotNetCoreWithUnitTest.Data.Models.BookAuthor", b =>
                 {
-                    b.HasOne("WebApiDotNetCoreWithUnitTest.Data.Models.Author", "Author")
+                    b.HasOne("WebApiDotNetCoreWithUnitTest.Data.Models.Book", "Book")
                         .WithMany("BookAuthors")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApiDotNetCoreWithUnitTest.Data.Models.Book", "Book")
+                    b.HasOne("WebApiDotNetCoreWithUnitTest.Data.Models.Author", "Author")
                         .WithMany("BookAuthors")
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("AuthorId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

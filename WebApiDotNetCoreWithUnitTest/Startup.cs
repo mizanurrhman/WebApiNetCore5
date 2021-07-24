@@ -37,6 +37,8 @@ namespace WebApiDotNetCoreWithUnitTest
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
             //Configure Service 
             services.AddTransient<BookService>();
+            services.AddTransient<AuthorsService>();
+            services.AddTransient<PublishersService>();
 
 
             services.AddSwaggerGen(c =>
@@ -66,7 +68,7 @@ namespace WebApiDotNetCoreWithUnitTest
                 endpoints.MapControllers();
             });
             
-            AppDBInitializer.Seed(app);
+            //AppDBInitializer.Seed(app);
 
         }
     }

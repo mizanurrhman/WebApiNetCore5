@@ -1,4 +1,4 @@
-# DotNet Core Web API 
+# P1: DotNet Core Web API 
 
 - Project 1: WebApiNetCore5
 - Unit Of Work and Generic Repository Pattern 
@@ -14,7 +14,7 @@
 - Setup GitHub for Source Control
 
 
-# DotNet Core Web API with Unit Test 
+# P2: DotNet Core Web API with Unit Test 
 
 - Project 2: WebApiDotNetCoreWithUnitTest
 - Introduction to Web API

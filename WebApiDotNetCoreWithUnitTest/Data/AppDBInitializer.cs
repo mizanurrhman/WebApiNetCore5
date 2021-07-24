@@ -26,7 +26,7 @@ namespace WebApiDotNetCoreWithUnitTest.Data
                         DateRead=DateTime.Now.AddDays(-10),
                         Rate=4,
                         Genre="Biography",
-                        Author="First Author",
+                        //Author="First Author",
                         CoverUrl="https............",
                         DateAdded=DateTime.Now
                     },
@@ -36,7 +36,7 @@ namespace WebApiDotNetCoreWithUnitTest.Data
                         Description = "2nd Book Description",
                         IsRead = false,
                         Genre = "Biography",
-                        Author = "First Author",
+                        //Author = "First Author",
                         CoverUrl = "https............",
                         DateAdded = DateTime.Now
                     });
