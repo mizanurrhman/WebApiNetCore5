@@ -71,6 +71,40 @@
  - add  `[Route("api/v{version:apiVersion}/[controller]")]` 
  - url : `https://localhost:44353/api/v1/test/get-test-data`
  - OutPut: `This is TestController V1`
+ 
+ > HTTP Header based versioning 
+ 
+ - `Startop.cs` add `config.ApiVersionReader = new HeaderApiVersionReader("custom-version-header");`
+ - Modify Controller 
+ ```cs
+ [ApiVersion("1.0")]
+    [ApiVersion("1.2")]
+    [ApiVersion("1.9")]
+     [Route("api/[controller]")]
+    //[Route("api/v{version:apiVersion}/[controller]")]
+    [ApiController]
+    public class TestController : ControllerBase
+    {
+        [HttpGet("get-test-data"), MapToApiVersion("1.0")]
+        public IActionResult GetV1()
+        {
+            return Ok("This is TestController version V1.0");
+        }
+        [HttpGet("get-test-data"), MapToApiVersion("1.2")]
+        public IActionResult GetV12()
+        {
+            return Ok("This is TestController version V1.2");
+        }
+        [HttpGet("get-test-data"), MapToApiVersion("1.9")]
+        public IActionResult GetV19()
+        {
+            return Ok("This is TestController version V1.9");
+        }
+    }
+ ```
+
+ > Media Type Based Versioning 
+- add `config.ApiVersionReader = new MediaTypeApiVersionReader();` in Startup.cs 
 
 
 
