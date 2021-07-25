@@ -18,18 +18,18 @@
 - add AppDbContext inside data  class `public class AppDbContext: DbContext`
 > add connection String in `appsetting.json`
 -- ```json 
-    "ConnectionStrings": {
-           "DefaultConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=WebApiDotNetCorewithUTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
-     }```
+"ConnectionStrings": {
+"DefaultConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=WebApiDotNetCorewithUTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+}```
 
 > set ConnectionString in `Startup.cs` 
 ```cs
-        public string ConnectionString { get; set; }
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            ConnectionString = Configuration.GetConnectionString("DefaultConnectionString");
-        }
+public string ConnectionString { get; set; }
+public Startup(IConfiguration configuration)
+{
+    Configuration = configuration;
+    ConnectionString = Configuration.GetConnectionString("DefaultConnectionString");
+}
 ```
 > Configure database context with sql database install 
 - `install-package Microsoft.EntityFrameworkCore.SqlServer`
@@ -61,10 +61,10 @@
  
  > Default API versioning in `startup.cs`
  ```cs
- services.AddApiVersioning(config => {
-                config.DefaultApiVersion = new ApiVersion(1, 0);
-                config.AssumeDefaultVersionWhenUnspecified = true;
-            });
+services.AddApiVersioning(config => {
+    config.DefaultApiVersion = new ApiVersion(1, 0);
+    config.AssumeDefaultVersionWhenUnspecified = true;
+});
  ```
  > URL Based versioning 
  
@@ -78,29 +78,29 @@
  - Modify Controller 
  ```cs
  [ApiVersion("1.0")]
-    [ApiVersion("1.2")]
-    [ApiVersion("1.9")]
-     [Route("api/[controller]")]
-    //[Route("api/v{version:apiVersion}/[controller]")]
-    [ApiController]
-    public class TestController : ControllerBase
+[ApiVersion("1.2")]
+[ApiVersion("1.9")]
+    [Route("api/[controller]")]
+//[Route("api/v{version:apiVersion}/[controller]")]
+[ApiController]
+public class TestController : ControllerBase
+{
+    [HttpGet("get-test-data"), MapToApiVersion("1.0")]
+    public IActionResult GetV1()
     {
-        [HttpGet("get-test-data"), MapToApiVersion("1.0")]
-        public IActionResult GetV1()
-        {
-            return Ok("This is TestController version V1.0");
-        }
-        [HttpGet("get-test-data"), MapToApiVersion("1.2")]
-        public IActionResult GetV12()
-        {
-            return Ok("This is TestController version V1.2");
-        }
-        [HttpGet("get-test-data"), MapToApiVersion("1.9")]
-        public IActionResult GetV19()
-        {
-            return Ok("This is TestController version V1.9");
-        }
+        return Ok("This is TestController version V1.0");
     }
+    [HttpGet("get-test-data"), MapToApiVersion("1.2")]
+    public IActionResult GetV12()
+    {
+        return Ok("This is TestController version V1.2");
+    }
+    [HttpGet("get-test-data"), MapToApiVersion("1.9")]
+    public IActionResult GetV19()
+    {
+        return Ok("This is TestController version V1.9");
+    }
+}
  ```
 
  > Media Type Based Versioning 
@@ -111,56 +111,93 @@
 
 - Install npm `Serilog.AspNetCore` `Serilog.Sinks.File` `Serilog.Sinks.MSSqlserver` 
 ```cs
- try{
-     Log.Logger = new LoggerConfiguration().WriteTo.File("Logs/log.txt",rollingInterval:RollingInterval.Day).CreateLogger();
-                CreateHostBuilder(args).Build().Run();
-                //rollingInterval:RollingInterval.Day means create a file daily 
-     }finally{
-             Log.CloseAndFlush();
-     }```
-     then inject it to controller using constructor 
-     `private readonly ILogger<PublishersController> _logger;`
-     then apply in methode  
-     `_logger.LogInformation("This is just a log in GetAllPublishers()");`
+try{
+Log.Logger = new LoggerConfiguration().WriteTo.File("Logs/log.txt",rollingInterval:RollingInterval.Day).CreateLogger();
+CreateHostBuilder(args).Build().Run();
+//rollingInterval:RollingInterval.Day means create a file daily 
+}finally{
+Log.CloseAndFlush();
+}```
+then inject it to controller using constructor 
+`private readonly ILogger<PublishersController> _logger;`
+then apply in methode  
+`_logger.LogInformation("This is just a log in GetAllPublishers()");`
 
      
-     > Configure with `appsettings.json` and `startup.cs` and only show the eror in log file 
+> Configure with `appsettings.json` and `startup.cs` and only show the eror in log file 
 
-     ```json
-     "Serilog": {
-    "MinimumLevel": {
-      "Default": "Information",
-      "Override": {
-        "System": "Error",
-        "Microsoft": "Error"
-      }
-    },
-    "WriteTo": [
-      {
-        "Name": "File",
-        "Args": {
-          "path": "Logs/log.txt",
-          "rollingInterval": "Day",
-          "outputTemplate": "{Timestamp} [{Level}] - Message: {Message}{NewLine}{Exception}"
-        }
-      },
-      {
-        "Name": "MSSqlServer",
-        "Args": {
-          "connectionString": "Data Source=ETR\\sqlserver;Initial Catalog=my-books-db;Integrated Security=True;Pooling=False",
-          "tableName": "Logs"
-        }
-      }
-    ]
-     ```
-     Now modify code in `startup.cs` file  
-     ```cs
-      var configuation = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-      Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuation).CreateLogger();
+```json
+"Serilog": {
+"MinimumLevel": {
+"Default": "Information",
+"Override": {
+"System": "Error",
+"Microsoft": "Error"
+}
+},
+"WriteTo": [
+{
+"Name": "File",
+"Args": {
+"path": "Logs/log.txt",
+"rollingInterval": "Day",
+"outputTemplate": "{Timestamp} [{Level}] - Message: {Message}{NewLine}{Exception}"
+}
+}
+]
+```
+Now modify code in `startup.cs` file  
+```cs
+var configuation = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuation).CreateLogger();
      
-      CreateHostBuilder(args).Build().Run();
-      ```
+CreateHostBuilder(args).Build().Run();
+```
+# Store log to sql server tables 
+      
+- Create a class `Log` add it to `AppDbContext`  add `modelBuilder.Entity<Log>().HasKey(n => n.Id);` in `OnModelCreating` 
+- `add-migration LogTableAdded`
+> Store 
+It will store in SQL Server Tables,  add another object to WriteTo in `appsettings.json`
+```json
+{
+"Name": "MSSqlServer",
+"Args": {
+"connectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=WebApiDotNetCorewithUTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+"tableName": "Logs"
+}
+}
+```
+inject `ILoggerFactory` in `startup.cs`  `Configure`
+` public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)`
+`app.ConfigureBuildInExceptionHandler(loggerFactory);`
+     
+change in `ExceptionMiddlewareExtensions`
+`public static void ConfigureBuildInExceptionHandler(this IApplicationBuilder app, ILoggerFactory loggerFactory)`
+` var logger = loggerFactory.CreateLogger("ConfigureBuildInExceptionHandler");`
+```cs
+if (contextFeature != null)
+{
+    var errorVMString = new ErrorVM()
+    {
+        StatusCode = context.Response.StatusCode,
+        Message = contextFeature.Error.Message,
+        Path = contexrRequest.Path
+    }.ToString();
 
+    logger.LogError(errorVMString);
+                        
+    await context.Response.WriteAsync(errorVMString);
+}
+```
+
+now call it from controller `throw new Exception("This is an exception thrown from GetAllPublishers()");`
+
+> Retriving All logs from Database 
+
+            
+create a service `LogsService` and controller `LogsController` 
+and  add the service in startup.cs `services.AddTransient<LogsService>();`
 
 
 

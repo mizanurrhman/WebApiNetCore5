@@ -27,12 +27,15 @@ namespace WebApiDotNetCoreWithUnitTest.Data
                     .HasOne(b => b.Author)
                     .WithMany(ba => ba.BookAuthors)
                     .HasForeignKey(bi => bi.AuthorId);
+
+            modelBuilder.Entity<Log>().HasKey(n => n.Id);
         }
         public DbSet<Book> Books { get; set; } // Book is class and Books is database class
         public DbSet<Author> Authors { get; set; } 
         public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
 
+        public DbSet<Log> Logs { get; set; }
 
 
 

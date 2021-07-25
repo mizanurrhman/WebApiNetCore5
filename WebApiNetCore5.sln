@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiNetCore5", "WebApiNet
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD597E83-3372-4D23-8ABB-7B6C7A1315DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiDotNetCoreWithUnitTest", "WebApiDotNetCoreWithUnitTest\WebApiDotNetCoreWithUnitTest.csproj", "{B6F70264-575C-4206-8201-7E226291BD3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiDotNetCoreWithUnitTest", "WebApiDotNetCoreWithUnitTest\WebApiDotNetCoreWithUnitTest.csproj", "{B6F70264-575C-4206-8201-7E226291BD3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiDotNetCore5wuT_Tests", "WebApiDotNetCore5wuT_Tests\WebApiDotNetCore5wuT_Tests.csproj", "{D22EF89E-C330-4951-B6F9-69D2D086DB98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{B6F70264-575C-4206-8201-7E226291BD3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6F70264-575C-4206-8201-7E226291BD3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6F70264-575C-4206-8201-7E226291BD3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D22EF89E-C330-4951-B6F9-69D2D086DB98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D22EF89E-C330-4951-B6F9-69D2D086DB98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D22EF89E-C330-4951-B6F9-69D2D086DB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D22EF89E-C330-4951-B6F9-69D2D086DB98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

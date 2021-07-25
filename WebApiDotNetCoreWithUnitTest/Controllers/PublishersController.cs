@@ -31,6 +31,9 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
         [HttpGet("get-all-publishers")]
         public IActionResult GetAllPublishers( string sortBy, string searchString,int pageNumber)
         {
+            //to save to sql server tables 
+           // throw new Exception("This is an exception thrown from GetAllPublishers()");
+           
             try
             {
                 _logger.LogInformation("This is just a log in GetAllPublishers()");
@@ -62,7 +65,24 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
             }
         }
 
+
         [HttpGet("get-publisher-by-id/{id}")]
+        public IActionResult GetPublisherById(int id)
+        {
+            //Custom Exception handling 
+            //throw new Exception("Data Not Found! & This is an exception that will be handled by middleware");
+
+            var _response = _publisherService.GetPublisherById(id);
+            if (_response != null)
+                return Ok(_response);
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
+        /*[HttpGet("get-publisher-by-id/{id}")]
         public CustomActionResult GetPublisherById(int id)
         {
 
@@ -90,7 +110,7 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
         }
 
 
-        /*
+        
         [HttpGet("get-publisher-by-id/{id}")]
         public IActionResult GetPublisherById(int id)
         {

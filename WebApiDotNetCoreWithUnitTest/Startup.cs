@@ -41,6 +41,7 @@ namespace WebApiDotNetCoreWithUnitTest
             services.AddTransient<BookService>();
             services.AddTransient<AuthorsService>();
             services.AddTransient<PublishersService>();
+            services.AddTransient<LogsService>();
             //services.AddApiVersioning();
             //default api versioning 
             services.AddApiVersioning(config => {
@@ -60,7 +61,7 @@ namespace WebApiDotNetCoreWithUnitTest
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -75,7 +76,7 @@ namespace WebApiDotNetCoreWithUnitTest
 
             app.UseAuthorization();
             //Exception Handling 
-            //app.ConfigureBuildInExceptionHandler();
+            app.ConfigureBuildInExceptionHandler(loggerFactory);
             //app.ConfigureCustomExceptionHandler();
 
             app.UseEndpoints(endpoints =>
