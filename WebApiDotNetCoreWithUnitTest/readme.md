@@ -107,6 +107,59 @@
 - add `config.ApiVersionReader = new MediaTypeApiVersionReader();` in Startup.cs 
 
 
+# WebApi Logging with serilog 
+
+- Install npm `Serilog.AspNetCore` `Serilog.Sinks.File` `Serilog.Sinks.MSSqlserver` 
+```cs
+ try{
+     Log.Logger = new LoggerConfiguration().WriteTo.File("Logs/log.txt",rollingInterval:RollingInterval.Day).CreateLogger();
+                CreateHostBuilder(args).Build().Run();
+                //rollingInterval:RollingInterval.Day means create a file daily 
+     }finally{
+             Log.CloseAndFlush();
+     }```
+     then inject it to controller using constructor 
+     `private readonly ILogger<PublishersController> _logger;`
+     then apply in methode  
+     `_logger.LogInformation("This is just a log in GetAllPublishers()");`
+
+     
+     > Configure with `appsettings.json` and `startup.cs` and only show the eror in log file 
+
+     ```json
+     "Serilog": {
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "System": "Error",
+        "Microsoft": "Error"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "File",
+        "Args": {
+          "path": "Logs/log.txt",
+          "rollingInterval": "Day",
+          "outputTemplate": "{Timestamp} [{Level}] - Message: {Message}{NewLine}{Exception}"
+        }
+      },
+      {
+        "Name": "MSSqlServer",
+        "Args": {
+          "connectionString": "Data Source=ETR\\sqlserver;Initial Catalog=my-books-db;Integrated Security=True;Pooling=False",
+          "tableName": "Logs"
+        }
+      }
+    ]
+     ```
+     Now modify code in `startup.cs` file  
+     ```cs
+      var configuation = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+      Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuation).CreateLogger();
+     
+      CreateHostBuilder(args).Build().Run();
+      ```
 
 
 

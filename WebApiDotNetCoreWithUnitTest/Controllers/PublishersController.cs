@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,14 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
     public class PublishersController : ControllerBase
     {
         private PublishersService _publisherService;
-        public PublishersController(PublishersService publisherService)
+        private readonly ILogger<PublishersController> _logger;
+
+
+
+        public PublishersController(PublishersService publisherService, ILogger<PublishersController> logger)
         {
             _publisherService = publisherService;
+            _logger = logger;
         }
 
         [HttpGet("get-all-publishers")]
@@ -27,6 +33,8 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
         {
             try
             {
+                _logger.LogInformation("This is just a log in GetAllPublishers()");
+
                 var _result = _publisherService.GetAllPublishers(sortBy, searchString, pageNumber);
                 return Ok(_result);
             }
