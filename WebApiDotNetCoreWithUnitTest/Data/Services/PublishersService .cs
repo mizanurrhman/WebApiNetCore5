@@ -16,6 +16,9 @@ namespace WebApiDotNetCoreWithUnitTest.Data.Services
         {
             _context = context;
         }
+
+        public List<Publisher> GetAllPublishers() => _context.Publishers.ToList();
+
         public Publisher AddPublisher(PublisherVM publisher)
         {
             if (StringStartsWithNumber(publisher.Name)) 

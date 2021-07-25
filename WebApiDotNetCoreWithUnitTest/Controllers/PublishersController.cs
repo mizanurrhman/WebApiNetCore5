@@ -21,6 +21,21 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
         {
             _publisherService = publisherService;
         }
+
+        [HttpGet("get-all-publishers")]
+        public IActionResult GetAllPublishers()
+        {
+            try
+            {
+                var _result = _publisherService.GetAllPublishers();
+                return Ok(_result);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Sorry ! we could not load publisher's");
+            }
+        }
+
         [HttpPost("add-publisher")]
         public IActionResult AddPublisher([FromBody] PublisherVM publisher)
         {
@@ -42,7 +57,7 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
         [HttpGet("get-publisher-by-id/{id}")]
         public CustomActionResult GetPublisherById(int id)
         {
-        
+
             var _response = _publisherService.GetPublisherById(id);
             if (_response != null)
             {
@@ -52,7 +67,7 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
                     Publisher = _response
                 };
                 return new CustomActionResult(_responseObj);
-            
+
             }
             else
             {
