@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WebApiDotNetCoreWithUnitTest.Data.Models;
 using WebApiDotNetCoreWithUnitTest.Data.ViewModels;
+using WebApiDotNetCoreWithUnitTest.Exceptions;
 
 namespace WebApiDotNetCoreWithUnitTest.Data.Services
 {
@@ -14,8 +16,11 @@ namespace WebApiDotNetCoreWithUnitTest.Data.Services
         {
             _context = context;
         }
-        public void AddPublisher(PublisherVM publisher)
+        public Publisher AddPublisher(PublisherVM publisher)
         {
+            if (StringStartsWithNumber(publisher.Name)) 
+                throw new PublisherNameException("Name starts with number", publisher.Name);
+            
             var _publisher = new Publisher()
             {
                 Name = publisher.Name
@@ -23,7 +28,9 @@ namespace WebApiDotNetCoreWithUnitTest.Data.Services
 
             _context.Publishers.Add(_publisher);
             _context.SaveChanges();
+            return _publisher;
         }
+        public Publisher GetPublisherById(int id) => _context.Publishers.FirstOrDefault(n => n.Id == id);
 
         public PublisherWithBooksAndAuthorsVM GetPublisherData(int publisherId)
         {
@@ -44,11 +51,18 @@ namespace WebApiDotNetCoreWithUnitTest.Data.Services
         public void DeletePublisherById(int id)
         {
             var _publisher = _context.Publishers.FirstOrDefault(n => n.Id == id);
-            if (_publisher !=null)
+            if (_publisher != null)
             {
                 _context.Publishers.Remove(_publisher);
                 _context.SaveChanges();
             }
+            else
+            {
+                throw new Exception($"The publisher with id: {id} does not exist");
+            }
         }
+
+        public bool StringStartsWithNumber(string name) => (Regex.IsMatch(name, @"^\d"));
+        
     }
 }

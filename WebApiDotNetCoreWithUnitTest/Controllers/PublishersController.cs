@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApiDotNetCoreWithUnitTest.Data.Services;
 using WebApiDotNetCoreWithUnitTest.Data.ViewModels;
+using WebApiDotNetCoreWithUnitTest.Exceptions;
 
 namespace WebApiDotNetCoreWithUnitTest.Controllers
 {
@@ -19,10 +20,36 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
             _publisherService = publisherService;
         }
         [HttpPost("add-publisher")]
-        public IActionResult AddBook([FromBody] PublisherVM publisher)
+        public IActionResult AddPublisher([FromBody] PublisherVM publisher)
         {
-            _publisherService.AddPublisher(publisher);
-            return Ok();
+            try
+            {
+                var newPublisher = _publisherService.AddPublisher(publisher);
+                return Created(nameof(AddPublisher), newPublisher);
+            }
+            catch (PublisherNameException ex)
+            {
+                return BadRequest($"{ex.Message}, Publisher Name :{ex.PublisherName}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-publisher-by-id/{id}")]
+        public IActionResult GetPublisherById(int id)
+        {
+            //Custom Exception handling 
+            //throw new Exception("Data Not Found! & This is an exception that will be handled by middleware");
+
+            var _response = _publisherService.GetPublisherById(id);
+            if (_response != null)
+                return Ok(_response);
+            else
+            {
+                  return NotFound();
+            }
         }
 
         [HttpGet("get-publisher-books-with-authors/{id}")]
@@ -35,8 +62,17 @@ namespace WebApiDotNetCoreWithUnitTest.Controllers
         [HttpDelete("delete-publisher-by-id/{id}")]
         public IActionResult DeletePublisherById(int id)
         {
-            _publisherService.DeletePublisherById(id);
-            return Ok();
+            try
+            {
+                _publisherService.DeletePublisherById(id);
+                return Ok();
+            }
+            catch (Exception ex)
+
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

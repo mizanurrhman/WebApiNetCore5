@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApiDotNetCoreWithUnitTest.Data;
 using WebApiDotNetCoreWithUnitTest.Data.Services;
+using WebApiDotNetCoreWithUnitTest.Exceptions;
 
 namespace WebApiDotNetCoreWithUnitTest
 {
@@ -62,6 +63,9 @@ namespace WebApiDotNetCoreWithUnitTest
             app.UseRouting();
 
             app.UseAuthorization();
+            //Exception Handling 
+            //app.ConfigureBuildInExceptionHandler();
+            //app.ConfigureCustomExceptionHandler();
 
             app.UseEndpoints(endpoints =>
             {
