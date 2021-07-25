@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WebApiDotNetCoreWithUnitTest.Data.Models;
+using WebApiDotNetCoreWithUnitTest.Data.Paging;
 using WebApiDotNetCoreWithUnitTest.Data.ViewModels;
 using WebApiDotNetCoreWithUnitTest.Exceptions;
 
@@ -17,7 +18,7 @@ namespace WebApiDotNetCoreWithUnitTest.Data.Services
             _context = context;
         }
 
-        public List<Publisher> GetAllPublishers(string sortBy,string searchString)
+        public List<Publisher> GetAllPublishers(string sortBy, string searchString, int? pageNumber)
         {
             var allPublishers = _context.Publishers.OrderBy(n => n.Name).ToList();
             if (!string.IsNullOrEmpty(sortBy))
@@ -33,9 +34,13 @@ namespace WebApiDotNetCoreWithUnitTest.Data.Services
             }
             if (!string.IsNullOrEmpty(searchString))
             {
-               // allPublishers = allPublishers.Where(n => n.Name.ToLower().Contains(searchString.ToLower())).ToList();
+                // allPublishers = allPublishers.Where(n => n.Name.ToLower().Contains(searchString.ToLower())).ToList();
                 allPublishers = allPublishers.Where(n => n.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
             }
+            //paging 
+            int pageSize = 5;
+            allPublishers = PaginatedList<Publisher>.Create(allPublishers.AsQueryable(), pageNumber ?? 1, pageSize);
+
             return allPublishers;
         }
 
