@@ -53,7 +53,27 @@
 
  
 
+ > Versioning 
+ add NPM `Microsoft.AspNetCore.Mvc.Versioning` add service `services.AddApiVersioning();` in `startup.cs`
  
+ `[ApiVersion("1.0")]`
+ `https://localhost:44353/api/test/get-test-data?api-version=1.0`
+ 
+ > Default API versioning in `startup.cs`
+ ```cs
+ services.AddApiVersioning(config => {
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+            });
+ ```
+ > URL Based versioning 
+ 
+ - add  `[Route("api/v{version:apiVersion}/[controller]")]` 
+ - url : `https://localhost:44353/api/v1/test/get-test-data`
+ - OutPut: `This is TestController V1`
+
+
+
 
 
 

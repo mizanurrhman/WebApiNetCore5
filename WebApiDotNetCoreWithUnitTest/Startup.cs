@@ -40,6 +40,12 @@ namespace WebApiDotNetCoreWithUnitTest
             services.AddTransient<BookService>();
             services.AddTransient<AuthorsService>();
             services.AddTransient<PublishersService>();
+            //services.AddApiVersioning();
+            //default api versioning 
+            services.AddApiVersioning(config => {
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+            });
 
 
             services.AddSwaggerGen(c =>
